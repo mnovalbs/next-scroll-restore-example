@@ -13,8 +13,11 @@ function Outlet({ id }) {
             page: id,
           },
         }}
+        passHref
       >
-        <label>Merchant {id}</label>
+        <a>
+          <label>Merchant {id}</label>
+        </a>
       </Link>
     </div>
   );

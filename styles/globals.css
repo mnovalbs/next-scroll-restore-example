@@ -8,8 +8,17 @@ body {
 }
 
 a {
-  color: inherit;
+  display: block;
   text-decoration: none;
+  text-align: center;
+  padding: 8px;
+  background: #00a3ff;
+  color: #fff;
+  border-radius: 5px;
+}
+
+a:hover {
+  background: #f00;
 }
 
 * {

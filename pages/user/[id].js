@@ -21,6 +21,7 @@ function User() {
         <div>
           <label>{name}</label>
         </div>
+        <button onClick={router.back}>Back</button>
       </div>
     </div>
   );

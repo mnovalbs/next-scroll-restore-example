@@ -19,7 +19,9 @@ function User(user) {
         <img src={image} />
       </Link>
       <div>
-        <label>{name}</label>
+        <Link href={`/user/${id}`} scroll>
+          <a>{name}</a>
+        </Link>
       </div>
     </div>
   );
