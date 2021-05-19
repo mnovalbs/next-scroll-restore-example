@@ -2,8 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import axios from "axios";
-import { useRouterScroll } from "@moxy/next-router-scroll";
 import { useRecoilState } from "recoil";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useRouterScroll } from "@moxy/next-router-scroll";
+
 import userStore from "../../stores/users";
 import styles from "../../styles/Home.module.css";
 import userStyles from "../../styles/User.module.css";
@@ -38,7 +40,7 @@ export default function UserList() {
     axios
       .get("/api/user", {
         params: {
-          page: apiPage,
+          page: apiPage || page + 1,
           limit: 10,
         },
       })
@@ -85,9 +87,17 @@ export default function UserList() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {users.map((user, i) => (
-        <User {...user} key={i} />
-      ))}
+      <InfiniteScroll
+        dataLength={users.length}
+        next={fetchData}
+        scrollThreshold={0.9}
+        loader="Loading..."
+        hasMore
+      >
+        {users.map((user, i) => (
+          <User {...user} key={i} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 }
