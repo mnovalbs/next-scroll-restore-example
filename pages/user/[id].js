@@ -7,10 +7,13 @@ function generateUser(id) {
   return { id, image, name };
 }
 
-function User() {
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function User({ user }) {
   const router = useRouter();
-  const { id } = router.query;
-  const { image, name } = generateUser(id);
+  const { image, name } = user;
 
   return (
     <div className={styles.containerDetail}>
@@ -26,5 +29,13 @@ function User() {
     </div>
   );
 }
+
+export async function getServerSideProps({ params }) {
+  await timeout(2000);
+
+  const user = generateUser(params.id)
+  return { props: { user } }
+}
+
 
 export default User;
