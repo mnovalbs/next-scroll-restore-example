@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/User.module.css";
+import styles from "../../styles/Item.module.css";
 
-function generateUser(id) {
+function generateItem(id) {
   const image = `https://picsum.photos/id/${id}/300/300`;
-  const name = `User ${id}`;
+  const name = `Item ${id}`;
   return { id, image, name };
 }
 
@@ -11,9 +11,9 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function User({ user }) {
+function Item({ item }) {
   const router = useRouter();
-  const { image, name } = user;
+  const { image, name } = item;
 
   return (
     <div className={styles.containerDetail}>
@@ -33,9 +33,9 @@ function User({ user }) {
 export async function getServerSideProps({ params }) {
   await timeout(2000);
 
-  const user = generateUser(params.id)
-  return { props: { user } }
+  const item = generateItem(params.id)
+  return { props: { item } }
 }
 
 
-export default User;
+export default Item;

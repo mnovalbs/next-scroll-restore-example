@@ -1,14 +1,14 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-import userStyles from "../styles/User.module.css";
+import itemStyles from "../styles/Item.module.css";
 
 function Outlet({ id }) {
   return (
-    <div className={userStyles.container}>
+    <div className={itemStyles.container}>
       <Link
         href={{
-          pathname: "/user",
+          pathname: "/item",
           query: {
             page: id,
           },

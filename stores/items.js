@@ -2,14 +2,14 @@ import { atom } from "recoil";
 
 const defaultState = {
   page: 0,
-  users: [],
+  items: [],
 };
 
-const users = atom({
-  key: "users",
+const items = atom({
+  key: "items",
   default: {
     default: defaultState,
   },
 });
 
-export default users;
+export default items;

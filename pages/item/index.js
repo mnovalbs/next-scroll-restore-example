@@ -6,20 +6,20 @@ import { useRecoilState } from "recoil";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouterScroll } from "@moxy/next-router-scroll";
 
-import userStore from "../../stores/users";
+import itemStore from "../../stores/items";
 import styles from "../../styles/Home.module.css";
-import userStyles from "../../styles/User.module.css";
+import itemStyles from "../../styles/Item.module.css";
 
-function User(user) {
-  const { id, name, image } = user;
+function Item(item) {
+  const { id, name, image } = item;
 
   return (
-    <div className={userStyles.container}>
-      <Link href={`/user/${id}`} scroll>
+    <div className={itemStyles.container}>
+      <Link href={`/item/${id}`} scroll>
         <img src={image} />
       </Link>
       <div>
-        <Link href={`/user/${id}`} scroll>
+        <Link href={`/item/${id}`} scroll>
           <a>{name}</a>
         </Link>
       </div>
@@ -27,36 +27,36 @@ function User(user) {
   );
 }
 
-export default function UserList() {
-  const [savedUsers, setSavedUsers] = useRecoilState(userStore);
+export default function ItemList() {
+  const [savedItems, setSavedItems] = useRecoilState(itemStore);
   const [page, setPage] = useState(0);
-  const [users, setUsers] = useState([]);
+  const [items, setItems] = useState([]);
   const { updateScroll } = useRouterScroll();
 
-  const addUsers = (newUsers) => {
-    setUsers((currentUsers) => currentUsers.concat(newUsers));
+  const addItems = (newItems) => {
+    setItems((currentItems) => currentItems.concat(newItems));
     setPage((currentPage) => currentPage + 1);
   };
 
   const fetchData = (apiPage) => {
     axios
-      .get("/api/user", {
+      .get("/api/item", {
         params: {
           page: apiPage || page + 1,
           limit: 10,
         },
       })
       .then(({ data }) => data.data)
-      .then(addUsers);
+      .then(addItems);
   };
 
   const divRef = useCallback(
     (node) => {
       const { locationKey } = window.history.state;
-      const initialUsers = savedUsers[locationKey]?.users || [];
-      const initialPage = savedUsers[locationKey]?.page || 0;
+      const initialItems = savedItems[locationKey]?.items || [];
+      const initialPage = savedItems[locationKey]?.page || 0;
 
-      setUsers(initialUsers);
+      setItems(initialItems);
       setPage(initialPage);
 
       if (node) {
@@ -72,14 +72,14 @@ export default function UserList() {
 
   useEffect(() => {
     const { locationKey } = window.history.state;
-    setSavedUsers((currentSavedUsers) => ({
-      ...currentSavedUsers,
+    setSavedItems((currentSavedItems) => ({
+      ...currentSavedItems,
       [locationKey]: {
-        users,
+        items,
         page,
       },
     }));
-  }, [users, page]);
+  }, [items, page]);
 
   return (
     <div ref={divRef} className={styles.container}>
@@ -90,14 +90,14 @@ export default function UserList() {
       </Head>
 
       <InfiniteScroll
-        dataLength={users.length}
+        dataLength={items.length}
         next={fetchData}
         scrollThreshold={0.9}
         loader="Loading..."
         hasMore
       >
-        {users.map((user, i) => (
-          <User {...user} key={i} />
+        {items.map((item, i) => (
+          <Item {...item} key={i} />
         ))}
       </InfiniteScroll>
     </div>
